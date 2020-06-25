@@ -32,7 +32,7 @@ st.write(data)
 st.write(data2)
 
 st.markdown('<h1 style="color:red">Histogram distribution in Fuel</h1>',unsafe_allow_html=True)
-column = st.selectbox("select a column from the dataset", ['barrel08'])
+column = st.selectbox("select a column from the dataset", ['barrels08'])
 bins = st.slider("select number of bins",5,100,20)
 
 histogram = data[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
@@ -44,8 +44,8 @@ histogram = data2[column].plot.hist(bins=bins, title=f'{column} histogram analys
 st.pyplot()
 
 st.subheader("Column Comparison in Dataset")
-xcol = st.selectbox("X axis :select a column from the dataset", data.columns)
-ycol = st.selectbox("Y axis :select a column from the dataset", data.columns)
+xcol = st.sidebar.selectbox("X axis :select a column from the dataset", data.columns)
+ycol = st.sidebar.selectbox("Y axis :select a column from the dataset", data.columns)
 fig = px.scatter(data,x=xcol, y=ycol,color='year')
 st.plotly_chart(fig,use_container_width=True)
 
