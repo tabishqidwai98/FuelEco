@@ -12,10 +12,13 @@ st.text("lets do some prediction")
 DATA_PATH = "vehicles.csv"
 DATA_PATH1 = "mpg.csv"
 
+@st.cache
 def load_data(rows = None):
     data = pd.read_csv(DATA_PATH, nrows = rows)
     data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
     return data
+
+@st.cache
 def load_data1(rows = None):
     data = pd.read_csv(DATA_PATH1, nrows = rows)
     data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
@@ -27,11 +30,13 @@ data2 = load_data1(10000)
 data_load_state.text("loaded the Datasets")
 
 st.subheader("View Raw Data")
-st.write(data)
+if st.checkbox("data 1"):
+    st.write(data)
 #cols = ["class","displ","trans","cyl","trans.dscr","cty","hwy"]
 #st_ms = st.multiselect("Columns", data2.columns.tolist(), default=cols)
 #st.write(data2)
-st.write(data2)
+if st.checkbox("data 2"):
+    st.write(data2)
 
 st.markdown('<h1 style="color:red">Histogram distribution in Fuel</h1>',unsafe_allow_html=True)
 st.text("Dataset : data 1")
@@ -49,7 +54,8 @@ st.pyplot()
 
 st.subheader("Column Comparison in Dataset")
 st.text("Dataset : data 1")
-xcol = st.sidebar.header(Comparision Graph).selectbox("X axis :select a column from the dataset", data.columns)
+st.sidebar.header("Comparision Graph")
+xcol = st.sidebar.selectbox("X axis :select a column from the dataset", data.columns)
 ycol = st.sidebar.selectbox("Y axis :select a column from the dataset", data.columns)
 fig = px.scatter(data,x=xcol, y=ycol,color='year')
 st.plotly_chart(fig,use_container_width=True)
