@@ -4,6 +4,7 @@ import numpy as np
 import plotly.figure_factory as ff
 import plotly.express as px
 import seaborn as sns
+import pickle
 
 st.title("Fuel Economy Dataset")
 
@@ -94,4 +95,16 @@ elif page == 'AI Application':
     comb08 = st.number_input('estimated combined miles per gallon ',min_value=7.0, max_value=141.00)
     city08 = st.number_input('estimated city miles per gallon',min_value=6.0, max_value=150.00)
     if st.button('predict'):
-        st.write("LOL")
+        with open('scaler.pk','rb') as f:
+            scaler = pickle.load(f)
+        
+        with open('model.pk','rb') as f:
+            model = pickle.load(f)
+        
+        if scaler and model:
+            data = np.array([co2TailpipeGpm, displ,barrels08,cylinders,fuelCost08, rangeHwy,comb08U, UHighway ,highway08, comb08,city08] )
+            features = scaler.transform(data.reshape(1,-1))
+            prediction = model.predict(features)
+            st.header("prediction city mpg of vehicle")
+            st.success(prediction[0])
+            
