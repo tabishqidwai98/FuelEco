@@ -82,7 +82,16 @@ elif page == 'AI Application':
     # form
     st.subheader('please enter data to predict the AI prediction')
     
-    co2TailpipeGpm = st.number_input('blah blah blah',min_value=0.0, max_value=.92)
-
+    co2TailpipeGpm = st.number_input('Carbondioxide Emission Values Gallons per mile',min_value=0.0, max_value=.92)
+    displ= st.number_input('Displacement is the total volume of all the cylinders in an engine',min_value=0.0, max_value=.92)
+    barrels08 = st.number_input('',min_value=0.06, max_value=.92)
+    cylinders = st.number_input('Number of cylinders in a car',min_value=0.0, max_value=.92)
+    fuelCost08 = st.number_input('Cost of Fuel',min_value=0.0, max_value=.92)
+    rangeHwy = st.number_input('Mileage over Highway',min_value=0.0, max_value=358.55)
+    comb08U = st.number_input('Unadjusted estimated combined miles per gallon',min_value=0.0, max_value=.92)
+    UHighway = st.number_input('unadjusted highway miles per gallon',min_value=0.0, max_value=187.10)
+    highway08 = st.number_input('estimated highway miles per gallon',min_value=0.0, max_value=.92)
+    comb08 = st.number_input('estimated combined miles per gallon ',min_value=0.0, max_value=.92)
+    city08 = st.number_input('estimated city miles per gallon',min_value=0.0, max_value=.92)
     if st.button('predict'):
         st.write("LOL")
