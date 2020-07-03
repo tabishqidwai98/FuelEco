@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import plotly.figure_factory as ff
 import plotly.express as px
 import seaborn as sns
@@ -56,6 +57,46 @@ if page =='Data Anaytics':
     bins = st.slider("select number of bins",10,110,40)
     histogram = data2[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
     st.pyplot()
+    
+    #st.subheader("Column Comparison in Dataset with bar graph")
+    #xcolumn = st.selectbox("select a column from the dataset", data.columns)
+    #ycolumn = st.selectbox("select a column from dataset", data.columns)
+    #plt.bar(xcolumn, ycolumn, width=20)
+    #st.pyplot()
+    # Data is not loading in the above graph even after re-running the streamlit
+
+    st.subheader("Column Compariso through scatter plot")
+    st.text("Dataset : data 1")
+    xcolumn = st.selectbox("select a column from the dataset for comparison", data.columns)
+    ycolumn1 = st.selectbox("select a first column for comparision with first column selected", data.columns)
+    ycolumn2 = st.selectbox("select a second column for comparosion with first column selected", data.columns)
+    ycolumn3 = st.selectbox("select a third column for comparosion with first column selected", data.columns)
+
+    plt.scatter(xcolumn, ycolumn1, data = data )
+    plt.scatter(xcolumn, ycolumn2, data = data )
+    plt.scatter(xcolumn, ycolumn3, data = data )
+    plt.xlabel(xcolumn)
+    plt.ylabel('Consumption')
+    plt.title('Comparison of columns of Dataset 1')
+    plt.grid(True)
+    plt.legend()
+    st.pyplot()
+
+    st.text("Dataset : data 2")
+    xcolumn = st.selectbox("select a column from the dataset for comparison", data2.columns)
+    ycolumn1 = st.selectbox("select a first column for comparision with first column selected", data2.columns)
+    ycolumn2 = st.selectbox("select a second column for comparosion with first column selected", data2.columns)
+    ycolumn3 = st.selectbox("select a third column for comparosion with first column selected", data2.columns)
+
+    plt.scatter(xcolumn, ycolumn1, data = data2 )
+    plt.scatter(xcolumn, ycolumn2, data = data2 )
+    plt.scatter(xcolumn, ycolumn3, data = data2 )
+    plt.xlabel(xcolumn)
+    plt.ylabel('Consumption')
+    plt.title('Comparison of columns of Dataset 2')
+    plt.grid(True)
+    plt.legend()
+    st.pyplot()
 
     st.subheader("Column Comparison in Dataset")
     st.text("Dataset : data 1")
@@ -71,11 +112,39 @@ if page =='Data Anaytics':
     fig = px.scatter(data2,x=xcol, y=ycol,color='year')
     st.plotly_chart(fig,use_container_width=True)
 
+    st.subheader("Pie chart comparision of vehicle")
+    st.text("Dataset : data 1")
     data.model.value_counts().head().plot(kind='pie')
     st.pyplot()
 
+    st.text("Dataset : data 2")
     data2.manufacturer.value_counts().head().plot(kind='pie')
     st.pyplot()
+
+    #sns.set()
+    #sns.heatmap(data.corr(), annot=True, fmt='.2f')
+    #st.pyplot()
+
+    #sns.heatmap(data2.corr(), annot=True, fmt='.2f')
+    #st.pyplot()
+
+    st.subheader("Column Comparison in Dataset through jointplot")
+    st.text('Dataset : Data 1')
+    xcolm = st.selectbox("X axis : select a column from the dataset", data.columns)
+    ycolm = st.selectbox("Y axis : select a column from the dataset", data.columns)
+    sns.jointplot(x=xcolm, y=ycolm, data=data)
+    st.pyplot()
+
+    st.text('Dataset : Data 2')
+    xcolm = st.selectbox("X axis : select a column from the dataset", data2.columns)
+    ycolm = st.selectbox("Y axis : select a column from the dataset", data2.columns)
+    sns.jointplot(x=xcolm, y=ycolm, data=data2)
+    st.pyplot()
+
+    #xcolm = st.selectbox("X axis : select a column from the dataset ", data.columns)
+    #ycolm = st.selectbox("Y axis : select a column from the dataset ", data.columns)
+    #sns.catplot(x=xcolm, y=ycolm, kind='violin', data=data)
+    #st.pyplot()
 
 elif page == 'AI Application':
     # intro
