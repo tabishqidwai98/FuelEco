@@ -14,6 +14,7 @@ st.text("lets do some prediction")
 DATA_PATH = "vehicles.csv"
 DATA_PATH1 = "mpg.csv"
 
+st.sidebar.image('fuel.png',use_column_width=True)
 page = st.sidebar.selectbox("select a page",['Data Anaytics','AI Application','Diesel Prediction']) 
 if page =='Data Anaytics':    
 
