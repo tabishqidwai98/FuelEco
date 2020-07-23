@@ -1,7 +1,7 @@
 pandas
 numpy
-streamlit
-matplotlib
-seaborn
-plotly
 scikit-learn
+matplotlib
+plotly
+seaborn
+scipy

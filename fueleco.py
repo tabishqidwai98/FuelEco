@@ -14,7 +14,7 @@ st.text("lets do some prediction")
 DATA_PATH = "vehicles.csv"
 DATA_PATH1 = "mpg.csv"
 
-page = st.sidebar.selectbox("select a page",['Data Anaytics','AI Application']) 
+page = st.sidebar.selectbox("select a page",['Data Anaytics','AI Application','Diesel Prediction']) 
 if page =='Data Anaytics':    
 
     @st.cache
@@ -176,4 +176,24 @@ elif page == 'AI Application':
             prediction = model.predict(features)
             st.header("prediction city mpg of vehicle")
             st.success(prediction[0])
-            
+
+elif page=='Diesel Prediction':
+
+    st.header("Predict Diesel Prices")
+    cities = ['Mumbai','Delhi','Chennai','Kolkata']
+    date = st.date_input("select a date")
+    city = st.selectbox("select a Metro city",cities)
+    if date and city and st.button("Predict"):
+        with open('models/diesel_price_prediction.pk', 'rb') as f:
+            model_dict = pickle.load(f)
+            st.write(model_dict)
+            # convert date to ordinal
+        date_o = date.toordinal()
+        city_dummies = model_dict['city_encoder'].transform([[city]]).toarray()
+        st.write("date as ordinal",date_o)
+        st.write("city as dummy variable", city_dummies)
+        X = np.append(city_dummies[:,:-1],[[date_o]],axis=1)
+        st.write("Our data for input",X)
+        scaled_X = model_dict['scale'].transform(X)
+        result = model_dict['model'].predict(scaled_X)
+        st.write(f"price predicted is {result[0]:.2f}")
