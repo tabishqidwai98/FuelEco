@@ -34,26 +34,26 @@ if page =='Data Anaytics':
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
     
-    def load_data2_crudeoil(rows = None):
+    def load_data_crudeoil(rows = None):
         data = pd.read_csv(crudeoil, nrows = rows)
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
 
-    def load_data3_CrudeoilvsDiesel(rows = None):
+    def load_data_CrudeoilvsDiesel(rows = None):
         data = pd.read_csv(CrudeoilvsDiesel, nrows = rows, parse_dates=['Month'],dayfirst=True)
         return data
 
-    def load_data4_CrudeoilvsGasoline(rows = None):
+    def load_data_CrudeoilvsGasoline(rows = None):
         data = pd.read_csv(CrudeoilvsGasoline, nrows = rows)
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
 
-    def load_data5_Diesel(rows = None):
+    def load_data_Diesel(rows = None):
         data = pd.read_csv(Diesel, nrows = rows)
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
 
-    def load_data6_petrol(rows = None):
+    def load_data_petrol(rows = None):
         data = pd.read_csv(petrol, nrows = rows)
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
@@ -61,11 +61,11 @@ if page =='Data Anaytics':
     data_load_state = st.text('loading fuel data...')
     datavehiclesUS = load_data_vehiclesUs(10000)
     dataMpgUS = load_dataMpgUS_mpgUS(10000)
-    datacrudeoil = load_data2_crudeoil()
-    dataCrudeoilvsDiesel = load_data3_CrudeoilvsDiesel()
-    dataCrudeoilvsGasoline = load_data4_CrudeoilvsGasoline()
-    dataDiesel = load_data5_Diesel()
-    datapetrol = load_data6_petrol()
+    datacrudeoil = load_data_crudeoil()
+    dataCrudeoilvsDiesel = load_data_CrudeoilvsDiesel()
+    dataCrudeoilvsGasoline = load_data_CrudeoilvsGasoline()
+    dataDiesel = load_data_Diesel()
+    datapetrol = load_data_petrol()
     data_load_state.text("loaded the Datasets")
 
     st.subheader("View Raw Data")
