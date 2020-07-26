@@ -35,9 +35,11 @@ if page =='Data Anaytics':
         return data
     
     def load_data2_crudeoil(rows = None):
-        data = pd.read_csv(crudeoil, nrows = rows)
-        data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
-        return data
+        df = pd.read_csv(crudeoil,parse_dates=['Month'],dayfirst=True,index_col='Month')
+        df.columns = ['Crude_Oil_Price','Diesel_Price']
+        df.Crude_Oil_Price = df.Crude_Oil_Price.apply(lambda val:float(val.replace(',','')))
+        df.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
+        return df
 
     def load_data3_CrudeoilvsDiesel(rows = None):
         data = pd.read_csv(CrudeoilvsDiesel, nrows = rows, parse_dates=['Month'],dayfirst=True)
@@ -111,9 +113,7 @@ if page =='Data Anaytics':
     bins = st.slider("select number of bins",10,120,10)
     histogram = datacrudeoil[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
     st.pyplot()
-    
-    sns.regplot(x='month',y='price',data=datacrudeoil)
-    st.pyplot()
+
 
     st.text("Dataset : CrudeoilvsDiesel")
     column = st.selectbox("select a column from the dataset", dataCrudeoilvsDiesel.columns)
@@ -289,7 +289,7 @@ elif page=='Petrol Prediction':
         with open('models/petrol_price_prediction.pk', 'rb') as f:
             model_dict = pickle.load(f)
             st.write(model_dict)
-            # convert date to ordinal
+            #convert date to ordinal
         date_o = date.toordinal()
         city_dummies = model_dict['city_encoder'].transform([[city]]).toarray()
         st.write("date as ordinal",date_o)
