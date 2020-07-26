@@ -20,11 +20,7 @@ CrudeoilvsGasoline = "datasets/CrudeoilvsGasoline.csv"
 Diesel = "datasets/Diesel(new).csv"
 petrol = "datasets/petrol(new).csv"
 
-<<<<<<< Updated upstream
 #st.sidebar.image('fuel.png',use_column_width=True)
-=======
-st.sidebar.image('fuel.png',use_column_width=True)
->>>>>>> Stashed changes
 page = st.sidebar.selectbox("select a page",['Data Anaytics','Mileage Prediction','Diesel Prediction','Petrol Prediction']) 
 if page =='Data Anaytics':    
 
@@ -41,11 +37,7 @@ if page =='Data Anaytics':
     
     def load_data2_crudeoil(rows = None):
         df = pd.read_csv(crudeoil,parse_dates=['Month'],dayfirst=True,index_col='Month')
-<<<<<<< Updated upstream
         df.columns = ['Crude_Oil_Price','change']
-=======
-        df.columns = ['Crude_Oil_Price']
->>>>>>> Stashed changes
         df.Crude_Oil_Price = df.Crude_Oil_Price.apply(lambda val:float(val.replace(',','')))
         df.change = df.change.apply(cleanChangeVal)
         df.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
@@ -127,9 +119,8 @@ if page =='Data Anaytics':
     st.text("Dataset : crudeoil")
     st.write(datacrudeoil.head())
     column = st.selectbox("select a column from the dataset", datacrudeoil.columns)
-    crude_oil_price = st.selectbox('select a city name',datacrudeoil.crude_oil_price.unique())
-    datacrudeoil.resample('M').mean().plot(kind='line',style='ro:',title='Avg Petrol price every month',figsize=(8,5))
-    plt.xlabel('')
+    datacrudeoil.resample('M').mean().plot(kind='line',style='ro--',title='Avg Petrol price every month',figsize=(8,5))
+    plt.xlabel('Year')
     st.pyplot()
 
 
@@ -201,15 +192,15 @@ if page =='Data Anaytics':
     st.subheader("Column Comparison in Dataset")
     st.text("Dataset : vehiclesUs")
     st.write(datavehiclesUS.head())
-    st.sidebar.header("Comparision Graph")
-    xcol = st.sidebar.selectbox("X axis :select a column from the dataset", datavehiclesUS.columns)
-    ycol = st.sidebar.selectbox("Y axis :select a column from the dataset", datavehiclesUS.columns)
+    st.header("Comparision Graph")
+    xcol = st.selectbox("X axis :chosse a column from the ", datavehiclesUS.columns)
+    ycol = st.selectbox("Y axis :chosse a column from the dataset", datavehiclesUS.columns)
     fig = px.scatter(datavehiclesUS,x=xcol, y=ycol,color='year')
     st.plotly_chart(fig,use_container_width=True)
 
     st.text("Dataset : MpgUS")
-    xcol = st.sidebar.selectbox("X axis :select a column from the dataset", dataMpgUS.columns)
-    ycol = st.sidebar.selectbox("Y axis :select a column from the dataset", dataMpgUS.columns)
+    xcol = st.selectbox("X axis :select a column from the dataset", dataMpgUS.columns)
+    ycol = st.selectbox("Y axis :select a column from the dataset", dataMpgUS.columns)
     fig = px.scatter(dataMpgUS,x=xcol, y=ycol,color='year')
     st.plotly_chart(fig,use_container_width=True)
 
