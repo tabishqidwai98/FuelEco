@@ -21,7 +21,7 @@ Diesel = "datasets/Diesel(new).csv"
 petrol = "datasets/petrol(new).csv"
 
 st.sidebar.image('fuel.png',use_column_width=True)
-page = st.sidebar.selectbox("select a page",['Data Anaytics','AI Application','Diesel Prediction']) 
+page = st.sidebar.selectbox("select a page",['Data Anaytics','AI Application','Diesel Prediction','Petrol Prediction']) 
 if page =='Data Anaytics':    
 
     @st.cache()
@@ -43,21 +43,26 @@ if page =='Data Anaytics':
         return df
 
     def load_data3_CrudeoilvsDiesel(rows = None):
-        data = pd.read_csv(CrudeoilvsDiesel, nrows = rows, parse_dates=['Month'],dayfirst=True)
+        data = pd.read_csv(CrudeoilvsDiesel, nrows = rows, parse_dates=['Month'],dayfirst=True, index_col='Month')
+        data.columns = ['Crude_Oil_Price','Diesel_Price']
+        data.Crude_Oil_Price = data.Crude_Oil_Price.apply(lambda val:float(val.replace(',','')))
         return data
 
     def load_data4_CrudeoilvsGasoline(rows = None):
-        data = pd.read_csv(CrudeoilvsGasoline, nrows = rows)
-        data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
+        data = pd.read_csv(CrudeoilvsGasoline,parse_dates=['Month'],dayfirst=True, index_col='Month' )
+        data.columns = ['Crude_Oil_Price','Gasoline_Price']
+        data.Crude_Oil_Price = data.Crude_Oil_Price.apply(lambda val:float(val.replace(',','')))
         return data
 
     def load_data5_Diesel(rows = None):
-        data = pd.read_csv(Diesel, nrows = rows)
+        data = pd.read_csv(Diesel,parse_dates=['Date'],index_col='Date')
+        data.columns = ['city','diesel_price']
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
 
     def load_data6_petrol(rows = None):
-        data = pd.read_csv(petrol, nrows = rows)
+        data = pd.read_csv(petrol,parse_dates=['Date'],index_col='Date',)
+        data.columns = ['city','petrol_price']
         data.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return data
 
@@ -104,6 +109,7 @@ if page =='Data Anaytics':
     st.pyplot()
 
     st.text("Dataset : MpgUS")
+    st.write(dataMpgUS.head())
     column = st.selectbox("select a column from the dataset", ['year'])
     bins = st.slider("select number of bins",10,110,40)
     histogram = dataMpgUS[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
@@ -117,27 +123,28 @@ if page =='Data Anaytics':
 
 
     st.text("Dataset : CrudeoilvsDiesel")
-    column = st.selectbox("select a column from the dataset", dataCrudeoilvsDiesel.columns)
-    bins = st.slider("select number of bins",20,110,50)
-    histogram = dataCrudeoilvsDiesel[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
-    st.pyplot()
+    st.write(dataCrudeoilvsDiesel.head())
+    st.write(dataCrudeoilvsDiesel.head())
+    fig = px.scatter_3d(dataCrudeoilvsDiesel, x=dataCrudeoilvsDiesel.index, y='Crude_Oil_Price',z='Diesel_Price',color='Diesel_Price',size='Crude_Oil_Price',width=500,)
+    st.plotly_chart(fig)
 
     st.text("Dataset : CrudeoilvsGasoline")
-    column = st.selectbox("select a column from the dataset", dataCrudeoilvsGasoline.columns)
-    bins = st.slider("select number of bins",15,110,15)
-    histogram = dataCrudeoilvsGasoline[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
-    st.pyplot()
+    st.write(dataCrudeoilvsGasoline.head())
+    fig = px.scatter_3d(dataCrudeoilvsGasoline, x=dataCrudeoilvsGasoline.index, y='Crude_Oil_Price',z='Gasoline_Price',color='Gasoline_Price',size='Crude_Oil_Price',width=500,)
+    st.plotly_chart(fig)
 
     st.text("Dataset : Diesel")
-    column = st.selectbox("select a column from the dataset", dataDiesel.columns)
-    bins = st.slider("select number of bins",10,130,20)
-    histogram = dataDiesel[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
+    st.write(dataDiesel.head())
+    cityname = st.selectbox('select a city',dataDiesel.city.unique())
+    dataDiesel[dataDiesel['city']==cityname].resample('M').mean().plot(kind='line',style='ro:',title='Avg Diesel price every month',figsize=(8,5))
+    plt.xlabel('')
     st.pyplot()
 
     st.text("Dataset : petrol")
-    column = st.selectbox("select a column from the dataset", datapetrol.columns)
-    bins = st.slider("select number of bins",5,100,30)
-    histogram = datapetrol[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
+    st.write(datapetrol.head())
+    cityname = st.selectbox('select a city name',datapetrol.city.unique())
+    datapetrol[datapetrol['city']==cityname].resample('M').mean().plot(kind='line',style='ro:',title='Avg Petrol price every month',figsize=(8,5))
+    plt.xlabel('')
     st.pyplot()
     
     #st.subheader("Column Comparison in Dataset with bar graph")
@@ -149,14 +156,15 @@ if page =='Data Anaytics':
 
     st.subheader("Column Comparison through scatter plot")
     st.text("Dataset : vehiclesUs")
-    xcolumn = st.selectbox("select a column from the dataset for comparison", datavehiclesUs.columns)
-    ycolumn1 = st.selectbox("select a first column for comparision with first column selected", datavehiclesUs.columns)
-    ycolumn2 = st.selectbox("select a second column for comparosion with first column selected", datavehiclesUs.columns)
-    ycolumn3 = st.selectbox("select a third column for comparosion with first column selected", datavehiclesUs.columns)
+    st.write(datavehiclesUS.head())
+    xcolumn = st.selectbox("select a column from the dataset for comparison", datavehiclesUS.columns)
+    ycolumn1 = st.selectbox("select a first column for comparision with first column selected", datavehiclesUS.columns)
+    ycolumn2 = st.selectbox("select a second column for comparosion with first column selected", datavehiclesUS.columns)
+    ycolumn3 = st.selectbox("select a third column for comparosion with first column selected", datavehiclesUS.columns)
 
-    plt.scatter(xcolumn, ycolumn1, data = datavehiclesUs )
-    plt.scatter(xcolumn, ycolumn2, data = datavehiclesUs )
-    plt.scatter(xcolumn, ycolumn3, data = datavehiclesUs )
+    plt.scatter(xcolumn, ycolumn1, data = datavehiclesUS )
+    plt.scatter(xcolumn, ycolumn2, data = datavehiclesUS )
+    plt.scatter(xcolumn, ycolumn3, data = datavehiclesUS )
     plt.xlabel(xcolumn)
     plt.ylabel('Consumption')
     plt.title('Comparison of columns of Dataset 1')
@@ -182,10 +190,11 @@ if page =='Data Anaytics':
 
     st.subheader("Column Comparison in Dataset")
     st.text("Dataset : vehiclesUs")
+    st.write(datavehiclesUS.head())
     st.sidebar.header("Comparision Graph")
-    xcol = st.sidebar.selectbox("X axis :select a column from the dataset", data.columns)
-    ycol = st.sidebar.selectbox("Y axis :select a column from the dataset", data.columns)
-    fig = px.scatter(data,x=xcol, y=ycol,color='year')
+    xcol = st.sidebar.selectbox("X axis :select a column from the dataset", datavehiclesUS.columns)
+    ycol = st.sidebar.selectbox("Y axis :select a column from the dataset", datavehiclesUS.columns)
+    fig = px.scatter(datavehiclesUS,x=xcol, y=ycol,color='year')
     st.plotly_chart(fig,use_container_width=True)
 
     st.text("Dataset : MpgUS")
@@ -196,7 +205,7 @@ if page =='Data Anaytics':
 
     st.subheader("Pie chart comparision of vehicle")
     st.text("Dataset : vehiclesUs")
-    data.model.value_counts().head().plot(kind='pie')
+    datavehiclesUS.model.value_counts().head().plot(kind='pie')
     st.pyplot()
 
     st.text("Dataset : MpgUS")
@@ -212,9 +221,9 @@ if page =='Data Anaytics':
 
     st.subheader("Column Comparison in Dataset through jointplot")
     st.text('Dataset : vehiclesUs')
-    xcolm = st.selectbox("X axis : select a column from the dataset", datavehiclesUs.columns)
-    ycolm = st.selectbox("Y axis : select a column from the dataset", datavehiclesUs.columns)
-    sns.jointplot(x=xcolm, y=ycolm, data=datavehiclesUs)
+    xcolm = st.selectbox("X axis : select a column from the dataset", datavehiclesUS.columns)
+    ycolm = st.selectbox("Y axis : select a column from the dataset", datavehiclesUS.columns)
+    sns.jointplot(x=xcolm, y=ycolm, data=datavehiclesUS)
     st.pyplot()
 
     st.text('Dataset : MpgUS')
@@ -278,7 +287,7 @@ elif page=='Diesel Prediction':
         st.write("Our data for input",X)
         scaled_X = model_dict['scale'].transform(X)
         result = model_dict['model'].predict(scaled_X)
-        st.write(f"price predicted is {result[0]:.2f}")
+        st.success(f"price predicted is {result[0]:.2f}")
 
 elif page=='Petrol Prediction':
 
@@ -299,4 +308,4 @@ elif page=='Petrol Prediction':
         st.write("Our data for input",X)
         scaled_X = model_dict['scale'].transform(X)
         result = model_dict['model'].predict(scaled_X)
-        st.write(f"price predicted is {result[0]:.2f}")
+        st.success(f"price predicted is {result[0]:.2f}")
