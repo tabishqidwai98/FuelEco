@@ -193,8 +193,8 @@ if page =='Data Anaytics':
     st.text("Dataset : vehiclesUs")
     st.write(datavehiclesUS.head())
     st.header("Comparision Graph")
-    xcol = st.selectbox("X axis :chosse a column from the ", datavehiclesUS.columns)
-    ycol = st.selectbox("Y axis :chosse a column from the dataset", datavehiclesUS.columns)
+    xcol = st.selectbox("X axis :choose a column from the ", datavehiclesUS.columns)
+    ycol = st.selectbox("Y axis :choose a column from the dataset", datavehiclesUS.columns)
     fig = px.scatter(datavehiclesUS,x=xcol, y=ycol,color='year')
     st.plotly_chart(fig,use_container_width=True)
 
