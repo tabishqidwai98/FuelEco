@@ -20,8 +20,8 @@ CrudeoilvsGasoline = "datasets/CrudeoilvsGasoline.csv"
 Diesel = "datasets/Diesel(new).csv"
 petrol = "datasets/petrol(new).csv"
 
-st.sidebar.image('fuel.png',use_column_width=True)
-page = st.sidebar.selectbox("select a page",['Data Anaytics','AI Application','Diesel Prediction','Petrol Prediction']) 
+#st.sidebar.image('fuel.png',use_column_width=True)
+page = st.sidebar.selectbox("select a page",['Data Anaytics','Mileage Prediction','Diesel Prediction','Petrol Prediction']) 
 if page =='Data Anaytics':    
 
     @st.cache()
@@ -37,8 +37,9 @@ if page =='Data Anaytics':
     
     def load_data2_crudeoil(rows = None):
         df = pd.read_csv(crudeoil,parse_dates=['Month'],dayfirst=True,index_col='Month')
-        df.columns = ['Crude_Oil_Price','Diesel_Price']
+        df.columns = ['Crude_Oil_Price','change']
         df.Crude_Oil_Price = df.Crude_Oil_Price.apply(lambda val:float(val.replace(',','')))
+        df.change = df.change.apply(cleanChangeVal)
         df.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
         return df
 
@@ -116,6 +117,7 @@ if page =='Data Anaytics':
     st.pyplot()
 
     st.text("Dataset : crudeoil")
+    st.write(datacrudeoil.head())
     column = st.selectbox("select a column from the dataset", datacrudeoil.columns)
     bins = st.slider("select number of bins",10,120,10)
     histogram = datacrudeoil[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
@@ -123,7 +125,6 @@ if page =='Data Anaytics':
 
 
     st.text("Dataset : CrudeoilvsDiesel")
-    st.write(dataCrudeoilvsDiesel.head())
     st.write(dataCrudeoilvsDiesel.head())
     fig = px.scatter_3d(dataCrudeoilvsDiesel, x=dataCrudeoilvsDiesel.index, y='Crude_Oil_Price',z='Diesel_Price',color='Diesel_Price',size='Crude_Oil_Price',width=500,)
     st.plotly_chart(fig)
