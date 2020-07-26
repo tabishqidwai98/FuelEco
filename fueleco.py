@@ -8,9 +8,9 @@ import seaborn as sns
 import pickle
 from helper import cleanChangeVal
 
-st.markdown('<h1 style="color:red">Fuel Economy prediction</h1>',unsafe_allow_html=True)
-
-st.text("lets do some prediction")
+st.markdown('<h1 style="color:red">Fuel Economy prediction</h1>', unsafe_allow_html = True)
+st.markdown("Fossil fuel is getting scarce day by day and would get completely depleted in the coming years therefore crude oil prices  fluctuates erratically which generally makes the prices of the Gasoline (Petrol), Diesel, Heavy Fuel Oil & Jet Fuel go up and down.", unsafe_allow_html= True)
+st.markdown("This project is created for users to input their respective data into the prediction path and receive the predicted results by analyzing the datasets used in this project also to get a better understanding of the fuel prices through visualizations. ", unsafe_allow_html= True)
 
 vehiclesUS = "vehicles.csv"
 mpgUS = "mpg.csv"
@@ -20,9 +20,12 @@ CrudeoilvsGasoline = "datasets/CrudeoilvsGasoline.csv"
 Diesel = "datasets/Diesel(new).csv"
 petrol = "datasets/petrol(new).csv"
 
-#st.sidebar.image('fuel.png',use_column_width=True)
-page = st.sidebar.selectbox("select a page",['Data Anaytics','Mileage Prediction','Diesel Prediction','Petrol Prediction']) 
-if page =='Data Anaytics':    
+st.sidebar.image('fuel.png',use_column_width=True)
+page = st.sidebar.selectbox("Select a Page",['Data Anaytics','Mileage Prediction','Diesel Prediction','Petrol Prediction']) 
+if page =='Data Anaytics':   
+
+    st.header('Data Anaytics')
+    st.markdown('Data analytics (DA) is the process of examining data sets in order to draw conclusions about the information they contain, increasingly with the aid of specialized systems and software. Data analytics technologies and techniques are widely used in commercial industries to enable organizations to make more-informed business decisions and by scientists and researchers to verify or disprove scientific models, theories and hypotheses.',unsafe_allow_html= True)
 
     @st.cache()
     def load_data_vehiclesUs(rows = None):
@@ -75,7 +78,7 @@ if page =='Data Anaytics':
     dataCrudeoilvsGasoline = load_data4_CrudeoilvsGasoline()
     dataDiesel = load_data5_Diesel()
     datapetrol = load_data6_petrol()
-    data_load_state.text("loaded the Datasets")
+    data_load_state.text("The loaded datasets are as folows:-")
 
     st.subheader("View Raw Data")
     if st.checkbox("vehiclesUs"):
@@ -239,9 +242,13 @@ if page =='Data Anaytics':
     #st.pyplot()
 
 elif page == 'Mileage Prediction':
-    # intro
 
-    # form
+    st.header('Mileage Prediction')
+
+    st.markdown("Automobile MPG (miles per gallon) prediction is a typical RandomForestRegressor problem, in which several attributes of an automobile's profile information are used to predict another continuous attribute, **mileage**, the fuel consumption in MPG. The training data is available in the OpenEI website, Repository and contains data collected from automobiles of various makes and models. The six input attributes are Carbondioxide Emission Values Gallons per mile, displacement, Displacement is the total volume of all the cylinders in an engine, Cost of barrel, Number of cylinders in a car, Cost of Fuel etc. The output variable to be predicted is the fuel consumption in MPG.")
+    
+    st.markdown("**let's get the prediction**")
+    
     st.subheader('please enter data to predict the AI prediction')
     
     co2TailpipeGpm = st.number_input('Carbondioxide Emission Values Gallons per mile',min_value=0.0, max_value=1269.57)
@@ -270,7 +277,11 @@ elif page == 'Mileage Prediction':
             st.success(prediction[0])
 
 elif page=='Diesel Prediction':
-
+    
+    st.header("Diesel Prediction")
+    st.markdown("Diesel fuel is a mixture of hydrocarbons obtained by distillation of crude oil with boiling points in the range of 150°C  to 380°C.")
+    st.markdown("This sections shows the predictive prices of diesel in certain cities of India up-to 90.5 percent ccuracy also it can provide past and present prices of diesel up-to 2017.")
+    st.markdown("**lets get the prediction**")
     st.header("Predict Diesel Prices")
     cities = ['Mumbai','Delhi','Chennai','Kolkata']
     date = st.date_input("select a date")
@@ -292,6 +303,10 @@ elif page=='Diesel Prediction':
 
 elif page=='Petrol Prediction':
 
+    st.header("Petrol Prediction")
+    st.markdown("All around the world petrol is used as fuel for vehicles. It's one of the main products, which is consumed heavily worldwide.It is a derivative product of crude oil/petroleum. It is derived during fractional distillation process and has a translucent liquid form. It's not used in its crude form. Different additives are added like ethanol to use it as fuel for passenger vehicles. In the US and Latin countries, term gasoline is used, but in Europe and Asian countries it's called petrol.")
+    st.markdown("This page shows the predictive prices of petrol in certain cities of India up-to 90.5 percent accuracy also it can provide past and present prices of petrol up-to 2017.")
+    st.markdown("**lets get the prediction now!**")
     st.header("Predict Petrol Prices")
     cities = ['Mumbai','Delhi','Chennai','Kolkata']
     date = st.date_input("select a date")
