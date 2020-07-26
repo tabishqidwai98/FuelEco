@@ -20,7 +20,11 @@ CrudeoilvsGasoline = "datasets/CrudeoilvsGasoline.csv"
 Diesel = "datasets/Diesel(new).csv"
 petrol = "datasets/petrol(new).csv"
 
+<<<<<<< Updated upstream
 #st.sidebar.image('fuel.png',use_column_width=True)
+=======
+st.sidebar.image('fuel.png',use_column_width=True)
+>>>>>>> Stashed changes
 page = st.sidebar.selectbox("select a page",['Data Anaytics','Mileage Prediction','Diesel Prediction','Petrol Prediction']) 
 if page =='Data Anaytics':    
 
@@ -37,7 +41,11 @@ if page =='Data Anaytics':
     
     def load_data2_crudeoil(rows = None):
         df = pd.read_csv(crudeoil,parse_dates=['Month'],dayfirst=True,index_col='Month')
+<<<<<<< Updated upstream
         df.columns = ['Crude_Oil_Price','change']
+=======
+        df.columns = ['Crude_Oil_Price']
+>>>>>>> Stashed changes
         df.Crude_Oil_Price = df.Crude_Oil_Price.apply(lambda val:float(val.replace(',','')))
         df.change = df.change.apply(cleanChangeVal)
         df.rename(lambda col : str(col).lower(), axis ='columns', inplace = True)
@@ -119,8 +127,9 @@ if page =='Data Anaytics':
     st.text("Dataset : crudeoil")
     st.write(datacrudeoil.head())
     column = st.selectbox("select a column from the dataset", datacrudeoil.columns)
-    bins = st.slider("select number of bins",10,120,10)
-    histogram = datacrudeoil[column].plot.hist(bins=bins, title=f'{column} histogram analysis')
+    crude_oil_price = st.selectbox('select a city name',datacrudeoil.crude_oil_price.unique())
+    datacrudeoil.resample('M').mean().plot(kind='line',style='ro:',title='Avg Petrol price every month',figsize=(8,5))
+    plt.xlabel('')
     st.pyplot()
 
 
