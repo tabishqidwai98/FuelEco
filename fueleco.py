@@ -82,7 +82,7 @@ if page =='Data Anaytics':
 
     st.subheader("View Raw Data")
     if st.checkbox("vehiclesUs"):
-        st.write(data)
+        st.write(datavehiclesUS)
     #cols = ["class","displ","trans","cyl","trans.dscr","cty","hwy"]
     #st_ms = st.multiselect("Columns", dataMpgUS.columns.tolist(), default=cols)
     #st.write(dataMpgUS)
