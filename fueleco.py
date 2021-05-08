@@ -20,6 +20,8 @@ CrudeoilvsGasoline = "datasets/CrudeoilvsGasoline.csv"
 Diesel = "datasets/Diesel(new).csv"
 petrol = "datasets/petrol(new).csv"
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+
 st.sidebar.image('petrol.png',use_column_width=True)
 page = st.sidebar.selectbox("Select a Page",['Data Anaytics','Mileage Prediction','Diesel Prediction','Petrol Prediction']) 
 if page =='Data Anaytics':   
