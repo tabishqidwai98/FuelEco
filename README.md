@@ -7,5 +7,5 @@ pip install -r requirements.txt
 - run the project
 - on cmd
 ```bash
-streamlit run app.py
+streamlit run fueleco.py
 ```
