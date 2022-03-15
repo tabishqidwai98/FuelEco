@@ -7,4 +7,4 @@ pip install -requirements.txt
 - on cmd
 ```bash
 streamlit run ui.py
-`
+```
